@@ -5,12 +5,21 @@ import { NavLink } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
 import { doctors } from "../assets/assets";
 import { useParams } from "react-router-dom";
-import { AppContext } from "../context/AppContext";
 function Alldoctors() {
   const {speciality}=useParams()
-  const {doctors}=useContext(AppContext)
-  const [specialization, setSpecialization] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [filterdoc,setfilterdoc]=useState([]);
+
+  const applyfilter=()=>{
+    if(speciality){
+      setfilterdoc(doctors.filter(doc=>doc.speciality===speciality))
+    }
+    else(setfilterdoc(doctors)
+    )
+  }
+  useEffect(()=>{
+    applyfilter()
+  },[doctors,speciality])
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,23 +50,23 @@ function Alldoctors() {
           {/* Filter list: visible on large screen, or on small screen when open */}
           {(isOpen || window.innerWidth >= 1280) && (
             <ul className="space-y-2 text-gray-700">
-              <li className="border p-2 rounded hover:bg-gray-100 cursor-pointer">
-                <NavLink to="/General physician">General physician</NavLink>
+              <li className="border p-2 rounded hover:bg-gray-100 cursor-pointer" >
+                <NavLink to="/Alldoctors/General physician">General physician</NavLink>
               </li>
               <li className="border p-2 rounded hover:bg-gray-100 cursor-pointer">
-                <NavLink to="/Gynecologist">Gynecologist</NavLink>
+                <NavLink to="/Alldoctors/Gynecologist">Gynecologist</NavLink>
               </li>
               <li className="border p-2 rounded hover:bg-gray-100 cursor-pointer">
-                <NavLink to="/Dermatologist">Dermatologist</NavLink>
+                <NavLink to="/Alldoctors/Dermatologist">Dermatologist</NavLink>
               </li>
               <li className="border p-2 rounded hover:bg-gray-100 cursor-pointer">
-                <NavLink to="/Pediatricians">Pediatricians</NavLink>
+                <NavLink to="/Alldoctors/Pediatricians">Pediatricians</NavLink>
               </li>
               <li className="border p-2 rounded hover:bg-gray-100 cursor-pointer">
-                <NavLink to="/Neurologist">Neurologist</NavLink>
+                <NavLink to="/Alldoctors/Neurologist">Neurologist</NavLink>
               </li>
               <li className="border p-2 rounded hover:bg-gray-100 cursor-pointer">
-                <NavLink to="/Gastroenterologist">Gastroenterologist</NavLink>
+                <NavLink to="/Alldoctors/Gastroenterologist">Gastroenterologist</NavLink>
               </li>
             </ul>
           )}
@@ -65,7 +74,7 @@ function Alldoctors() {
 
         {/* Doctor Grid */}
         <div className="w-full xl:w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {doctors.map((data) => (
+          {filterdoc.map((data) => (
             <div
               key={data._id}
               className="rounded-xl overflow-hidden shadow-md transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"

@@ -6,7 +6,6 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 // import Login from "./pages/Login";
 import Myappointments from "./pages/Myappointments";
-import Myprofile from "./pages/Myprofile";
 import Createaccount from "./pages/Createaccount";
 import Appointment from "./pages/Appointment";
 
@@ -15,7 +14,8 @@ return(
   <div className="w-full max-w-[1130px] mx-auto px-5 md:px-10">
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/Alldoctors/:SpecialityMenu" element={<Alldoctors />} />
+      <Route path="/Alldoctors" element={<Alldoctors />} />
+      <Route path="/Alldoctors/:speciality" element={<Alldoctors />} />
       <Route path="/About" element={<About />} />
       <Route path="/Contact" element={<Contact />} />
       <Route path="/Myappointments" element={<Myappointments />} />
