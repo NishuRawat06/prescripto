@@ -157,34 +157,34 @@ function Appointment() {
             )
             .map((doc) => (
               <div
-                         onClick={()=>navigate(`/Appointment/${doc._id}`)}
-                         key={doc._id}
-                         className="rounded-xl overflow-hidden shadow-md transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"
-                       >
-                         <div className="bg-[#EAEFFF]">
-                           <img
-                             src={doc.image}
-                             alt={doc.name}
-                             className="w-full h-[220px] object-cover rounded-t-xl"
-                           />
-                         </div>
-             
-                         <div className="bg-white p-4 rounded-b-xl">
-                           <div className="text-sm font-semibold text-green-600 mb-1 flex gap-3 items-center">
-                             <FaCircle /> Available
-                           </div>
-                           <div className="text-lg font-bold text-gray-800 text-center">
-                             {doc.name}
-                           </div>
-                           <div className="text-sm text-gray-500 text-center">
-                             {doc.speciality}
-                           </div>
-                         </div>
-                       </div>
+                onClick={() => navigate(`/Appointment/${doc._id}`)}
+                key={doc._id}
+                className="rounded-xl overflow-hidden shadow-md transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"
+              >
+                <div className="bg-[#EAEFFF]">
+                  <img
+                    src={doc.image}
+                    alt={doc.name}
+                    className="w-full h-[220px] object-cover rounded-t-xl"
+                  />
+                </div>
+
+                <div className="bg-white p-4 rounded-b-xl">
+                  <div className="text-sm font-semibold text-green-600 mb-1 flex gap-3 items-center">
+                    <FaCircle /> Available
+                  </div>
+                  <div className="text-lg font-bold text-gray-800 text-center">
+                    {doc.name}
+                  </div>
+                  <div className="text-sm text-gray-500 text-center">
+                    {doc.speciality}
+                  </div>
+                </div>
+              </div>
             ))}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
