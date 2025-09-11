@@ -4,11 +4,11 @@ import Home from "./pages/home";
 import Alldoctors from "./pages/Alldoctors";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-// import Login from "./pages/Login";
+//import Login from "./pages/Login";
 import Myappointments from "./pages/Myappointments";
 import Createaccount from "./pages/Createaccount";
 import Appointment from "./pages/Appointment";
-
+import Myprofile from "./pages/Myprofile";
 function App(){
 return(
   <div className="w-full max-w-[1130px] mx-auto px-5 md:px-10">

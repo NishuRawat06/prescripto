@@ -39,3 +39,11 @@
 // )
 // }
 // export default Myprofile;
+import react from "react";
+export default function Myprofile(){
+    return(
+        <div>
+            profiles
+        </div>
+    )
+}

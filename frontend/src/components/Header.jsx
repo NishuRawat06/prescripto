@@ -29,7 +29,7 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 
 export default function Header() {
   return (
-    <div className="flex flex-col lg:flex-row w-full bg-[#6677FF] rounded-2xl px-10 sm:px-10 lg:px-20 py-10 sm:py-0 h-[710px] md:h-[750px] lg:h-[550px]">
+    <div className="flex flex-col lg:flex-row w-full bg-[#6677FF] rounded-2xl px-10 sm:px-10 lg:px-20 py-10 sm:py-0 h-[790px] sm:h-[710px] md:h-[750px] lg:h-[550px]">
       {/* Left Side */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center gap-6">
         <h1 className="text-3xl sm:text-4xl md:text-5xl text-white font-semibold leading-tight mx-auto md:mx-0">
