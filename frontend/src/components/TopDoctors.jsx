@@ -3,6 +3,7 @@ import { doctors } from "../assets/assets";
 import { FaCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import Alldoctors from"../pages/Alldoctors";
 export default function TopDoctors() {
   const navigate=useNavigate();
   const {doctors}=useContext(AppContext);
@@ -46,7 +47,7 @@ export default function TopDoctors() {
         ))}
       </div>
       <div>
-        <button className="rounded-3xl w-[100px] h-[45px] bg-slate-300 mt-10">
+        <button className="rounded-3xl w-[100px] h-[45px] bg-slate-300 mt-10" onClick={()=>navigate(`/Alldoctors`)}>
           more
         </button>
       </div>
