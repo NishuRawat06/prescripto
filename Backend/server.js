@@ -4,15 +4,21 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/mongobd.js";
 import connectCloudinary from "./config/cloudinary.js";
+import adminRouter from "../Backend/routes/adminRoute.js"
+import morgan from "morgan";
 dotenv.config();
+//app congig
 const app=express();
 const PORT = process.env.PORT || 5000;
 connectDB();
 connectCloudinary();
+//middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cors());
-
+app.use(morgan("dev")); 
+//api endpoint
+app.use('/api/admin',adminRouter)
 app.get("/",(req,res)=>{
     res.send("backend is working");
 });
