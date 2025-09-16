@@ -9,9 +9,9 @@ import morgan from "morgan";
 dotenv.config();
 //app congig
 const app=express();
+connectCloudinary();
 const PORT = process.env.PORT || 5000;
 connectDB();
-connectCloudinary();
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));

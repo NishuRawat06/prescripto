@@ -1,4 +1,3 @@
-import DoctorModel from "../models/doctorModel.js"; 
 import validator from "validator";
 import bcrypt from "bcrypt";
 import doctorModel from "../models/doctorModel.js";
@@ -7,7 +6,8 @@ import {v2 as cloudinary} from "cloudinary";
 
 export const addDoctor=async(req,res)=>{
     try{
-        const {name,email, speciality, degree,experience,about,fees,address}=req.body;
+        const {name,email, password,speciality, degree,experience,about,fees,address}=req.body;
+        console.log(req.body);
         const imagefile=req.file;
         //check for all data to add doctor
         if(!name|| !email|| !password || !speciality || !degree ||!experience ||!about ||!address){
