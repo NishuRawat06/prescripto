@@ -15,10 +15,12 @@ function Appointment() {
   const [slotindex, setslotindex] = useState(0);
   const [slottime, setslottime] = useState("");
 
+  // NEW → booking success message
+  const [bookingMessage, setBookingMessage] = useState("");
+
   // fetch doctor details
   const fetchDocInfo = async () => {
     const docInfo = doctors.find((doc) => doc._id === id);
-    console.log(docInfo);
     setdocInfo(docInfo);
   };
 
@@ -35,7 +37,7 @@ function Appointment() {
       endTime.setHours(21, 0, 0, 0);
 
       if (i === 0) {
-        // today’s slots start after current hour or 10AM
+        // today's slots start after current hour or 10 AM
         currentDate.setHours(
           currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10
         );
@@ -131,9 +133,7 @@ function Appointment() {
               key={idx}
               onClick={() => setslottime(slot.time)}
               className={`px-4 py-2 border rounded-full cursor-pointer ${
-                slottime === slot.time
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100"
+                slottime === slot.time ? "bg-blue-600 text-white" : "bg-gray-100"
               }`}
             >
               {slot.time}
@@ -141,15 +141,32 @@ function Appointment() {
           ))}
         </div>
 
-        <button className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-full shadow hover:bg-blue-700">
+        {/* Book Button */}
+        <button
+          className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-full shadow hover:bg-blue-700"
+          onClick={() => {
+            if (!slottime) {
+              setBookingMessage("⚠ Please select a time slot first!");
+              return;
+            }
+            setBookingMessage("✅ Your appointment has been booked successfully!");
+          }}
+        >
           Book an appointment
         </button>
+
+        {/* Success Message */}
+        {bookingMessage && (
+          <p className="mt-4 bg-green-100 text-green-700 px-4 py-2 rounded-md w-fit">
+            {bookingMessage}
+          </p>
+        )}
       </div>
 
       {/* Related Doctors */}
       <div className="mt-12">
         <h3 className="text-xl font-semibold mb-4">Related Doctors</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
           {doctors
             .filter(
               (doc) =>
@@ -184,6 +201,7 @@ function Appointment() {
             ))}
         </div>
       </div>
+
       <Footer />
     </div>
   );

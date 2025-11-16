@@ -9,14 +9,14 @@ function About() {
       <Navbar />
 
       {/* About Section */}
-      <div className="flex flex-col xl:flex-row items-center gap-10 py-12 px-5">
+      <div className="flex flex-col lg:flex-row items-center gap-10 py-12 px-5">
         {/* Image */}
-        <div className="w-full xl:w-1/2">
+        <div className="w-full lg:w-1/2">
           <img src={assets.about_image} alt="About Us" className="rounded-xl w-full" />
         </div>
 
         {/* Text */}
-        <div className="w-full xl:w-1/2">
+        <div className="w-full lg:w-1/2">
           <h2 className="text-3xl font-bold mb-6">
             ABOUT <span className="text-primary">US</span>
           </h2>
@@ -45,11 +45,13 @@ function About() {
             <h4 className="text-xl font-bold mb-2">EFFICIENCY:</h4>
             <p>Streamlined appointment scheduling that fits into your busy lifestyle.</p>
           </div>
+
           {/* Box 2 */}
           <div className="border p-6 rounded hover:bg-[#6677FF] hover:text-white transition duration-300">
             <h4 className="text-xl font-bold mb-2">CONVENIENCE:</h4>
             <p>Access to a network of trusted healthcare professionals in your area.</p>
           </div>
+
           {/* Box 3 */}
           <div className="border p-6 rounded hover:bg-[#6677FF] hover:text-white transition duration-300">
             <h4 className="text-xl font-bold mb-2">PERSONALIZATION:</h4>
