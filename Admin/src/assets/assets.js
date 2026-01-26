@@ -13,6 +13,8 @@ import verified_icon from './verified_icon.svg'
 import arrow_icon from './arrow_icon.svg'
 import info_icon from './info_icon.svg'
 import upload_icon from './upload_icon.png'
+import upload_area from './upload_area.png'
+import upload_areaa from './upload_areaa.svg'
 import stripe_logo from './stripe_logo.png'
 import razorpay_logo from './razorpay_logo.png'
 import doc1 from './doc1.png'
@@ -54,6 +56,8 @@ import Pediatricians from './Pediatricians.svg'
     cross_icon,
     dropdown_icon,
     upload_icon,
+    upload_area,
+    upload_areaa,
     stripe_logo,
     razorpay_logo
 }

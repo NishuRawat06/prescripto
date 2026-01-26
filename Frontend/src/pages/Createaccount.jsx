@@ -1,27 +1,55 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import axios from "axios";
 
 export default function Createaccount() {
-  const [state, setstate] = useState("signup");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [name, setname] = useState("");
-  const [message, setMessage] = useState("");   // ✅ NEW
+  const navigate = useNavigate();
 
-  const onsubmithandler = (e) => {
+  const [state, setState] = useState("signup"); // signup or login
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState(""); 
+  const [loading, setLoading] = useState(false);
+
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setLoading(true);
 
-    if (state === "login") {
-      setMessage("✅ You have been logged in successfully!");
-    } else {
-      setMessage("🎉 Account created successfully!");
+    try {
+      if (state === "signup") {
+        // SIGNUP
+        await axios.post(`${import.meta.env.VITE_API}/api/auth/register`, {
+          name,
+          email,
+          password,
+        });
+        setMessage("Account created successfully. Please login.");
+        setState("login");
+      } else {
+        // LOGIN
+        const res = await axios.post(`${import.meta.env.VITE_API}/api/auth/login`, {
+          email,
+          password,
+        });
+
+        // Save JWT token
+        localStorage.setItem("token", res.data.token);
+        setMessage("Login successful!");
+       
+      }
+
+      setName("");
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      setMessage(err.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
-
-    // Clear fields
-    setemail("");
-    setpassword("");
-    setname("");
   };
 
   return (
@@ -37,61 +65,66 @@ export default function Createaccount() {
             Please {state === "signup" ? "signup" : "login"} to book appointment
           </p>
 
-          {/* Success message */}
+          {/* MESSAGE */}
           {message && (
-            <p className="bg-green-100 text-green-700 p-2 rounded mb-4 text-sm text-center">
+            <p
+              className={`text-center text-sm mb-3 ${
+                message.toLowerCase().includes("success") ? "text-green-500" : "text-red-500"
+              }`}
+            >
               {message}
             </p>
           )}
 
-          <form onSubmit={onsubmithandler} className="space-y-4">
-            {/* Name only for signup */}
+          <form onSubmit={onSubmitHandler} className="space-y-4">
             {state === "signup" && (
               <div>
-                <label className="block text-gray-700 text-sm font-medium">
-                  Name
-                </label>
+                <label className="block text-gray-700 text-sm font-medium">Name</label>
                 <input
                   type="text"
                   placeholder="Enter your name"
                   value={name}
-                  onChange={(e) => setname(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                   className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
+                  required
                 />
               </div>
             )}
 
             <div>
-              <label className="block text-gray-700 text-sm font-medium">
-                Email
-              </label>
+              <label className="block text-gray-700 text-sm font-medium">Email</label>
               <input
                 type="email"
                 placeholder="Enter your email"
                 value={email}
-                onChange={(e) => setemail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
+                required
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 text-sm font-medium">
-                Password
-              </label>
+              <label className="block text-gray-700 text-sm font-medium">Password</label>
               <input
                 type="password"
                 placeholder="Enter your password"
                 value={password}
-                onChange={(e) => setpassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
+                required
               />
             </div>
 
             <button
               type="submit"
+              disabled={loading}
               className="w-full bg-[#6366F1] text-white py-2 rounded-md font-semibold hover:bg-[#4F46E5] transition"
             >
-              {state === "signup" ? "Create Account" : "Login"}
+              {loading
+                ? "Please wait..."
+                : state === "signup"
+                ? "Create Account"
+                : "Login"}
             </button>
           </form>
 
@@ -101,7 +134,7 @@ export default function Createaccount() {
                 Already have an account?{" "}
                 <span
                   onClick={() => {
-                    setstate("login");
+                    setState("login");
                     setMessage("");
                   }}
                   className="text-blue-500 underline cursor-pointer"
@@ -114,7 +147,7 @@ export default function Createaccount() {
                 Create a new account?{" "}
                 <span
                   onClick={() => {
-                    setstate("signup");
+                    setState("signup");
                     setMessage("");
                   }}
                   className="text-blue-500 underline cursor-pointer"

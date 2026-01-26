@@ -16,7 +16,7 @@ return aToken?(
   <div>
 <ToastContainer/>
 <Navbar/>
-<div>
+<div className="flex ">
   <Sidebar/>
   <Routes>
     <Route path="/" element={<></>}/>

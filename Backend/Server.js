@@ -6,6 +6,7 @@ import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import adminRouter from "./Routes/adminRoute.js";
 import morgan from "morgan";
+import authRoute from "./Routes/authRoute.js";
 dotenv.config();
 //app congig
 const app=express();
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(morgan("dev")); 
 //api endpoint
 app.use('/api/admin',adminRouter)
+app.use("/api/auth", authRoute);
 app.get("/",(req,res)=>{
     res.send("backend is working");
 });

@@ -4,6 +4,7 @@ import doctorModel from "../models/doctorModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import jwt from "jsonwebtoken";
 
+//ADD DOCTOR 
 const addDoctor = async (req, res) => {
   try {
     const {
@@ -17,9 +18,9 @@ const addDoctor = async (req, res) => {
       fees,
       address,
     } = req.body;
-    console.log(req.body);
+
     const imagefile = req.file;
-    //check for all data to add doctor
+
     if (
       !name ||
       !email ||
@@ -28,27 +29,24 @@ const addDoctor = async (req, res) => {
       !degree ||
       !experience ||
       !about ||
-      !address
+      !address ||
+      !imagefile
     ) {
-      return res.json({ sucess: false, message: "missing details" });
+      return res.json({ success: false, message: "Missing details" });
     }
-    //validate email format
+
     if (!validator.isEmail(email)) {
-      return res.json({ sucess: false, message: "please enter a valid email" });
+      return res.json({ success: false, message: "Invalid email" });
     }
-    //validate strong password
+
     if (password.length < 8) {
-      return res.json({
-        sucess: false,
-        message: "please enter strong password",
-      });
+      return res.json({ success: false, message: "Weak password" });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashpassword = await bcrypt.hash(password, salt);
-    const imageUpload = await cloudinary.uploader.upload(imagefile.path, {
-      resource_type: "image",
-    });
+
+    const imageUpload = await cloudinary.uploader.upload(imagefile.path);
     const imageUrl = imageUpload.secure_url;
 
     const doctorData = {
@@ -64,35 +62,47 @@ const addDoctor = async (req, res) => {
       address: JSON.parse(address),
       date: Date.now(),
     };
-    const newDoctor = new doctorModel(doctorData);
-    await newDoctor.save();
-    res.json({ sucess: true, message: "Doctor Added" });
+
+    await new doctorModel(doctorData).save();
+
+    res.json({ success: true, message: "Doctor Added Successfully" });
   } catch (error) {
     console.log(error);
-    res.send({
-      sucess: false,
-      message: error.message,
-    });
+    res.json({ success: false, message: error.message });
   }
 };
-//API FOR ADMIN LOGIC
+
+// ADMIN LOGIN 
 const LoginAdmin = (req, res) => {
   try {
-    const {email,password}=req.body;
-    if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD){
-      const Token= jwt.sign(email+password,process.env.JWT_SECRET)
-      res.json({sucess:true,Token})
+    const { email, password } = req.body;
+
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(
+        { email },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+      );
+
+      res.json({ success: true, token });
+    } else {
+      res.json({ success: false, message: "Invalid credentials" });
     }
-    else{
-       res.json({sucess:false,message:"invalid credentials"})
-    }
-  } 
-  catch {
-    console.log(error);
-    res.send({
-      sucess: false,
-      message: error.message,
-    });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
   }
 };
-export{addDoctor,LoginAdmin}
+// ALL DOCTORS 
+const allDoctors = async (req, res) => {
+  try {
+    const doctors = await doctorModel.find({}).select("-password");
+    res.json({ success: true, doctors });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export { addDoctor, LoginAdmin, allDoctors };

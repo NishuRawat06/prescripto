@@ -7,7 +7,7 @@ export default function Login() {
   const [state, setState] = useState("Admin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { SetAToken, backendurl } = useContext(Admincontext);
+  const { setAToken, backendurl } = useContext(Admincontext);
   const onsubmithandler = async (event) => {
     event.preventDefault();
     try {
@@ -16,10 +16,10 @@ export default function Login() {
           email,
           password,
         });
-        if (data.sucess) {
+        if (data.success) {
           console.log(data.Token);
           localStorage.setItem("aToken", data.Token);
-          SetAToken(data.Token);
+          setAToken(data.Token);
           toast.success("Login successful!");
         } else {
           toast.error(data.message || "Login failed");
